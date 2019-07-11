@@ -7,6 +7,7 @@ exports.up = async function(knex) {
       .string("email", 250)
       .notNullable()
       .unique();
+    tbl.string("password").notNullable();
     tbl
       .string("phone", 20)
       .notNullable()
