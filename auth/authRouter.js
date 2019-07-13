@@ -24,6 +24,7 @@ router.post("/register", async (req, res) => {
     const newUser = await Users.insert(user);
     res.status(201).json({ message: "User has been created" });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Error registering user." });
   }
 });
