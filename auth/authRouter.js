@@ -7,14 +7,14 @@ const jwtSecret = process.env.JWT_SECRET;
 const Users = require("../api/routes/usersModel");
 const restricted = require("./restricted-middleware");
 
-// router.get('/', async (req, res) => {
-//     try {
-//         const users = await Users.getAll();
-//         res.status(200).json(users);
-//     } catch(err){
-//         res.status(500).json({ message: "Error retrieving data." })
-//     }
-// })
+router.get("/", async (req, res) => {
+  try {
+    const users = await Users.getAll();
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({ message: "Error retrieving data." });
+  }
+});
 
 router.post("/register", async (req, res) => {
   let user = req.body;
@@ -22,7 +22,7 @@ router.post("/register", async (req, res) => {
     const hash = bcrypt.hashSync(user.password, 14);
     user.password = hash;
     const newUser = await Users.insert(user);
-    res.status(201).json(newUser);
+    res.status(201).json({ message: "User has been created" });
   } catch (err) {
     res.status(500).json({ message: "Error registering user." });
   }
