@@ -12,6 +12,7 @@ router.get("/", async (req, res) => {
     const users = await Users.getAll();
     res.status(200).json(users);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Error retrieving data." });
   }
 });
@@ -44,6 +45,7 @@ router.post("/login", async (req, res) => {
       res.status(401).json({ message: "Invalid credentials." });
     }
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Error logging in." });
   }
 });

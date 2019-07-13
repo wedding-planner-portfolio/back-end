@@ -12,9 +12,9 @@ function getAll() {
   return db("users");
 }
 
-function getBy(filter) {
+function getBy(username) {
   return db("users")
-    .where({ filter })
+    .where({ email: username })
     .first();
 }
 
