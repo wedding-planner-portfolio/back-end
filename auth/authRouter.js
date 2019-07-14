@@ -39,7 +39,13 @@ router.post("/login", async (req, res) => {
       const token = generateToken(user);
       res.status(200).json({
         message: `Welcome ${user.firstName}`,
-        authToken: token
+        authToken: token,
+        loggedInUser: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phone: user.phone
+        }
       });
     } else {
       res.status(401).json({ message: "Invalid credentials." });
