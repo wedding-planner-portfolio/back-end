@@ -31,4 +31,24 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.delete("/:postId", async (req, res) => {
+  const { postId } = req.params;
+  try {
+    const deletedPost = await Post.remove(postId);
+    res.status(200).json(deletedPost);
+  } catch (err) {
+    res.status(500).json({ error: "Error deleting post" });
+  }
+});
+
+router.put("/:postId", async (req, res) => {
+  const { postId } = req.params;
+  try {
+    const updatedPost = await Post.update(postId, req.body);
+    res.status(200).json(updatedPost);
+  } catch (err) {
+    res.status(500).json({ error: "Error updating post" });
+  }
+});
+
 module.exports = router;
