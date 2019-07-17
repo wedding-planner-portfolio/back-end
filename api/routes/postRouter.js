@@ -2,6 +2,8 @@ const router = require("express").Router();
 
 const Post = require("./postModel");
 
+const restricted = require("../../auth/restricted-middleware");
+
 router.get("/", async (req, res) => {
   try {
     const posts = await Post.getAll();
@@ -11,17 +13,17 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:userId", restricted, async (req, res) => {
   const { id } = req.params;
   try {
-    const postsById = await Post.getAllPostsById(id);
-    res.status(200).json(postsById);
+    const postsByUserId = await Post.getAllPostsById(id);
+    res.status(200).json(postsByUserId);
   } catch (err) {
     res.status(500).json({ error: "Error retrieving posts by Id" });
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", restricted, validBody, async (req, res) => {
   const post = req.body;
   try {
     const addedNewPost = await Post.insert(post);
@@ -31,7 +33,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.delete("/:postId", async (req, res) => {
+router.delete("/:postId", restricted, async (req, res) => {
   const { postId } = req.params;
   try {
     const deletedPost = await Post.remove(postId);
@@ -41,7 +43,7 @@ router.delete("/:postId", async (req, res) => {
   }
 });
 
-router.put("/:postId", async (req, res) => {
+router.put("/:postId", restricted, async (req, res) => {
   const { postId } = req.params;
   try {
     const updatedPost = await Post.update(postId, req.body);
@@ -50,5 +52,15 @@ router.put("/:postId", async (req, res) => {
     res.status(500).json({ error: "Error updating post" });
   }
 });
+
+function validBody(req, res, next) {
+  const { userId, imageURL, description, location, theme, pricing } = req.body;
+
+  if (userId && imageURL && description && location && theme && pricing) {
+    next();
+  } else {
+    res.status(400).json({ error: "Please enter all required data" });
+  }
+}
 
 module.exports = router;
