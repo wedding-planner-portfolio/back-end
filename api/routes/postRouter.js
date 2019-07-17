@@ -27,7 +27,9 @@ router.post("/", restricted, validBody, async (req, res) => {
   const post = req.body;
   try {
     const addedNewPost = await Post.insert(post);
-    res.status(201).json(addedNewPost);
+    const getAllPosts = await Post.getAll();
+    console.log(getAllPosts);
+    res.status(201).json(getAllPosts);
   } catch (err) {
     res.status(500).json({ message: "Error posting data" });
   }
