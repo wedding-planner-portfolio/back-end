@@ -8,7 +8,7 @@ Server will run on port 5000
 
 #### Register a new user
 `POST` to `https://wedding-planner-build-week.herokuapp.com/auth/register`
-The request body requires a username and password: 
+The request body requires the following:
 ```
 {
     "firstName": "Ronny",
@@ -30,7 +30,7 @@ The request body requires a username and password:
 ``` 
 #### Add a post 
 `POST` to `https://wedding-planner-build-week.herokuapp.com/api/post`
-The request body requires
+The request body requires the following:
 ```
 {
     "userId": 1,
